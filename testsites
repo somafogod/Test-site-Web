@@ -1,0 +1,131 @@
+
+try:
+    import tkinter as tk
+    import requests
+    import datetime as hoy
+    
+except:
+    import tkinter as tk
+    import requests
+    import datetime as hoy
+
+DELAY = 500
+
+def cargalog():
+    print('se cargo en log')
+
+def leerligas():
+    f = open("archivo.txt", "r")
+    while(True):
+        linea = f.readline()
+        return linea
+        if not linea:
+            break
+    f.close()
+    
+def muestra(ma1,ma2,servicio,color,lugar):
+    color = color
+    servicio=servicio
+    lugar = lugar+'1'
+    lugar = tk.Label(root, text=servicio, fg=color, bg="black", font=("Courier", 10))
+    ma1= ma1
+    ma2= ma2
+    lugar.place(x=ma1, y=ma2)
+
+def parpadea(tres,cuatro,color,lugar,texto):
+    ma3 = tres
+    ma4 = cuatro
+    texto = texto
+    global meca
+    meca = tk.Label(root, fg=color, bg="black", text=texto, font=("Courier", 10))
+    meca.place(x=ma3, y=ma4)
+    meca.after(0, update_cursor)
+ 
+
+def update_cursor():
+    if meca["fg"] == "black":
+        meca.config(fg="#FF0000")
+    else:
+        meca.config(fg="black") 
+    meca.after(DELAY, update_cursor)
+
+root = tk.Tk()
+root.geometry("430x680")
+root.title("Cardif Test")
+root.config(bg="black")
+
+
+def consulta(ligas):
+    ligas = ligas
+                
+    dos = 0
+    for k in ligas:
+        if (k != ''):
+            cadena = k
+            uno = 20
+            dos += 30
+            muestra(uno,dos,cadena, '#3ADF00', 'leb1')
+    
+    cuatro = 0
+    k1 = []
+    for mes in ligas:
+        try:
+            test = requests.get(mes, timeout=5)
+            #print(test.status_code)
+            print('...')
+            k1.append(str(test.status_code))
+        except:
+            print('Supero el limite')
+            k1.append(str('Error'))
+     
+    cuatro = 0
+    m1 = k1
+    for l in m1:
+        if(mes != ''):
+            tres = 350
+            cuatro += 30
+            if('2' in l):
+                print('...')
+                #print('Esta arriba')
+                si = 'OK'
+                muestra(tres,cuatro,si,'#3ADF00', 'leb1')
+                
+            else:
+                #print('Hay problema')
+                print('...')
+                no = 'Error esta abajo'
+                muestra(tres,cuatro,no,'#FF0000', 'leb1')
+                cargalog()
+            
+    
+try:
+    ligas=[
+       'http://multitenant.eficasia.com/cardif',
+       'https://start.fedoraproject.org/',
+       'https://www.youtube.com/',
+       'https://www.farmakea.com/',
+       'https://www.farmakela.com/',
+       'http://multitenant.eficasia.com/cardif',
+       'https://www.walmart.com.mx/electrodomesticos',
+       'https://www.vw.com.mx/es.html',
+       'http://191.96.190.84:3000/login',
+       'https://www.bodegaaurrera.com.mx/tv-y-video/destacados-tv-y-video',
+       'https://web.whatsapp.com/',
+       'https://www.volaris.com/',
+       ]
+    consulta(ligas)
+    tres1 = 30
+    cuatro1 = 600
+    color ='#3ADF00'
+    hoy1 = hoy.datetime.now()
+    texto = si = 'Procesado el '+str(hoy1)
+    lugar = 'leb1'
+    parpadea(tres1,cuatro1,color,lugar,texto)
+
+except:
+    print('Salio de la ejecucion')
+finally:
+    print('Se ha completado la accion')
+    
+root.mainloop()
+
